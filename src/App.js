@@ -40,20 +40,20 @@ class App extends Component {
       selected: button
     });
 
-    this.fetchPosts(this.state.selected.type);
+    this.fetchPosts(button.type);
   }
 
 
   fetchPosts = (filter) => {
 
-    // ?limit=1000
     this.setState({
       list: [],
       isLoading: true
     })
 
-    // https://www.reddit.com/r/reactjs/new.json
-    fetch(`https://www.reddit.com/r/reactjs/${filter}.json?limit=1000`)
+    const url = `https://www.reddit.com/r/reactjs/${filter}.json?limit=1000`;
+    console.log(`fetching: ${url}`);
+    fetch(url)
       .then(response => response.json())
       .then(json => {
         this.setState({
