@@ -4,18 +4,16 @@ import './list.css';
 
 class List extends Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     renderItem = items => (
-        items.map(item => (
-            <div className="list-item">
+        items.map((item, i) => (
+            <div key={i} className="list-item">
                 <div className="list-thumb">
                     {
-                        item != undefined && item.data.thumbnail != undefined && item.data.thumbnail != 'self' ?
+                        item !== undefined && item.data.thumbnail !== undefined && item.data.thumbnail !== 'self' ?
                             <img
                                 src={item.data.thumbnail}
+                                alt="Thumbnail"
                             />
                             :
                             <p>
@@ -46,17 +44,14 @@ class List extends Component {
     formatDate = (unix_timestamp) => {
 
         var date = new Date(unix_timestamp * 1000);
-        // Hours part from the timestamp
-        // var hours = date.getHours();
-        // // Minutes part from the timestamp
-        // var minutes = "0" + date.getMinutes();
-        // // Seconds part from the timestamp
-        // var seconds = "0" + date.getSeconds();
 
-        // // Will display time in 10:30:23 format
-        // var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        var now = new Date().getTime();
 
-        // return formattedTime;
+        var ellapsed_time = now - date;
+
+        console.log(ellapsed_time)
+
+      
         let day = date.getDate() <= 9 ? '0' + date.getDate() : date.getDate();
         let month = date.getMonth() < 9 ? '0' + date.getMonth() + 1 : date.getMonth() + 1;
         return `${day}/${month}/${date.getFullYear()}`;
