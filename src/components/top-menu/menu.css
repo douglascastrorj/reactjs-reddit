@@ -25,6 +25,7 @@
 }
 
 .menu-button .text {
+    cursor: pointer;
     color:white;
     text-decoration: none;
 }

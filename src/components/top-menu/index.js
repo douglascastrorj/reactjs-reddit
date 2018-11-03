@@ -10,12 +10,9 @@ class TopMenu extends Component {
            className={"menu-button " + (this.props.selected.title === button.title ? 'selected' : null)}  
            onClick={() => this.props.select(button)}
       >
-        <a  className="text" 
-            href="#" 
-        >
-
+        <p  className="text" >
           { button.title } 
-        </a>
+        </p>
       </div>
     ))
   }
