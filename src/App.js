@@ -1,25 +1,140 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import TopMenu from './components/top-menu';
+import List from './components/list';
+
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      buttons: [
+        {
+          title: 'HOT',
+          type: 'hot'
+        },
+        {
+          title: 'NEWS',
+          type: 'new'
+        },
+        {
+          title: 'RISING',
+          type: 'rising'
+        }
+      ],
+
+      selected: {
+        title: 'HOT',
+        type: 'hot'
+      },
+
+      isLoading: true,
+      list: [],
+      exibirAte: 10
+    }
+  }
+
+  select = (button) => {
+    this.setState({
+      selected: button
+    });
+
+    this.fetchPosts(this.state.selected.type);
+  }
+
+
+  fetchPosts = (filter) => {
+
+    // ?limit=1000
+    this.setState({
+      list: [],
+      isLoading: true
+    })
+
+    // https://www.reddit.com/r/reactjs/new.json
+    fetch(`https://www.reddit.com/r/reactjs/${filter}.json?limit=1000`)
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          list: json.data.children,
+          isLoading: false
+        })
+        console.log(this.state.list);
+      }).catch(() => {
+        this.setState({
+          isLoading: false
+        })
+        alert('erro')
+      })
+
+  }
+
+  componentDidMount() {
+    this.fetchPosts(this.state.selected.type);
+  }
+
+
+  renderLoading = () => (
+    <div class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+    </div>
+  )
+
+  renderList = () => (
+    this.state.isLoading ?
+      this.renderLoading()
+      :
+      <div>
+        <List
+          items={this.state.list.slice(0, this.state.exibirAte)}
+        />
+        <div
+          className="ver-mais"
+          onClick={this.loadMore}
+        >
+          <p> +  Ver mais </p>
+        </div>
+      </div>
+
+
+  )
+
+  loadMore = () => {
+    console.log("clicou")
+    this.setState({
+      exibirAte: this.state.exibirAte + 10
+    })
+  }
+
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+        <div className="header">
+          <h3>
+            REACT<span className="js-title">JS</span>
+          </h3>
+        </div>
+
+        <div className="app-wrapper">
+
+          <TopMenu
+            buttons={this.state.buttons}
+            selected={this.state.selected}
+            select={this.select}
+          />
+
+          {this.renderList()}
+
+
+
+        </div>
+
+
       </div>
     );
   }

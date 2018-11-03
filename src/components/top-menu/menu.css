@@ -1,0 +1,30 @@
+.container {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-button {
+    background: #666666;
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+.menu-button.selected {
+    background:#FF5500;
+}
+
+.menu-button .text {
+    color:white;
+    text-decoration: none;
+}
