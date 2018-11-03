@@ -44,13 +44,6 @@ class List extends Component {
     formatDate = (unix_timestamp) => {
 
         var date = new Date(unix_timestamp * 1000);
-
-        var now = new Date().getTime();
-
-        var ellapsed_time = now - date;
-
-        console.log(ellapsed_time)
-
       
         let day = date.getDate() <= 9 ? '0' + date.getDate() : date.getDate();
         let month = date.getMonth() < 9 ? '0' + date.getMonth() + 1 : date.getMonth() + 1;

@@ -60,7 +60,7 @@ class App extends Component {
           list: json.data.children,
           isLoading: false
         })
-        console.log(this.state.list);
+
       }).catch(() => {
         this.setState({
           isLoading: false
@@ -103,7 +103,6 @@ class App extends Component {
   )
 
   loadMore = () => {
-    console.log("clicou")
     this.setState({
       exibirAte: this.state.exibirAte + 10
     })

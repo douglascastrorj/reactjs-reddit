@@ -3,8 +3,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px;
-    margin: 10px;
-    
+    margin: 10px;    
 }
 
 
@@ -37,6 +36,12 @@
     color: white;
     text-align: center;
     width: 100px;   
+}
+
+.list-container .list-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .list-item .list-text-content .title{
