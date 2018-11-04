@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
+import { fetchSubreddit } from './actions/simpleAction'
 
 import TopMenu from './components/top-menu';
 import List from './components/list';
@@ -30,7 +32,6 @@ class App extends Component {
       },
 
       isLoading: true,
-      list: [],
       exibirAte: 10
     }
   }
@@ -47,21 +48,17 @@ class App extends Component {
   fetchPosts = (filter) => {
 
     this.setState({
-      list: [],
       isLoading: true
     })
 
-    const url = `https://www.reddit.com/r/reactjs/${filter}.json?limit=1000`;
-    console.log(`fetching: ${url}`);
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
+    this.props.fetchSubreddit(filter)
+      .then((data) => {
+        console.log('resultado da action', data)
         this.setState({
-          list: json.data.children,
           isLoading: false
         })
-
-      }).catch(() => {
+      })
+      .catch(() => {
         this.setState({
           isLoading: false
         })
@@ -89,13 +86,16 @@ class App extends Component {
       :
       <div>
         <List
-          items={this.state.list.slice(0, this.state.exibirAte)}
+          items={this.props.simpleReducer.subreddits
+            ? this.props.simpleReducer.subreddits.slice(0, this.state.exibirAte)
+            : []
+          }
         />
         <div
           className="ver-mais"
           onClick={this.loadMore}
         >
-          <p> +  Ver mais </p>
+          <p> + Ver mais </p>
         </div>
       </div>
 
@@ -107,7 +107,6 @@ class App extends Component {
       exibirAte: this.state.exibirAte + 10
     })
   }
-
 
   render() {
     return (
@@ -129,8 +128,6 @@ class App extends Component {
 
           {this.renderList()}
 
-
-
         </div>
 
 
@@ -139,4 +136,15 @@ class App extends Component {
   }
 }
 
-export default App;
+
+const mapStateToProps = state => ({
+  ...state
+})
+
+
+const mapDispatchToProps = dispatch => ({
+  fetchSubreddit: (filter) => dispatch(fetchSubreddit(filter))
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
