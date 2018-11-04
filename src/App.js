@@ -38,7 +38,8 @@ class App extends Component {
 
   select = (button) => {
     this.setState({
-      selected: button
+      selected: button,
+      exibirAte: 10
     });
 
     this.fetchPosts(button.type);
